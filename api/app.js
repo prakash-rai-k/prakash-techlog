@@ -5,17 +5,21 @@
 @C 2018, Prakash Rai
 */
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var lessMiddleware = require('less-middleware');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const lessMiddleware = require('less-middleware');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const PostSchema = require('./src/schema/post.schema');
 
-var postsRouter = require('./src/api/post.route');
-var errorHandler = require('./src/middleware/error-handler');
+const postService = require('./src/service/post.service')(mongoose, PostSchema);
+const handler = require('./src/handler/post.handler')(postService);
+const postsRouter = require('./src/api/post.route')(handler);
+const errorHandler = require('./src/middleware/error-handler');
 
-var app = express();
+const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

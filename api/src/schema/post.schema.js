@@ -6,18 +6,18 @@
 */
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://prakashrai:abc!#@ds237713.mlab.com:37713/pr-techlog');
+const Schema = mongoose.Schema;
 
-module.exports = function() {
-    const postSchema = new postSchema({ 
-        title: { type: String, unique : [true, 'The title already exists'], required : [true, 'Title is required']},
-        author: { type: String,  required : [true, 'Author is required']},
-        tags: String,
-        post: { type: String,  required : [true, 'Post is required']},
-        comments: JSON,
-        createdDate: {type: Date, required: [true, 'CreatedDate is required']},
-        modifiedDate: { type: Date,  required : [true, 'Modified is required']}
-    });
+const postSchema = new Schema({ 
+    title: { type: String, unique : [true, 'The title already exists'], required : [true, 'Title is required']},
+    author: { type: String,  required : [true, 'Author is required']},
+    tags: [String],
+    post: { type: String,  required : [true, 'Post is required']},
+    views: { type: Number, default: 0},
+    comments: JSON,
+    createdDateTime: {type: Date, required: [true, 'CreatedDate is required']},
+    modifiedDateTime: { type: Date,  required : [true, 'Modified is required']}
+});
 
-    return mongoose.model('Post', postSchema);
-}
+module.exports = mongoose.model('Posts', postSchema);
+

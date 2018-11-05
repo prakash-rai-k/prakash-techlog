@@ -1,9 +1,31 @@
-var express = require('express');
-var router = express.Router();
+/*
+* Schema for Post
+* v1.0
+*  2018-11-1
+@C 2018, Prakash Rai
+*/
 
-/* GET posts listing. */
-router.get('/', function(req, res, next) {
-  res.json([{"test": "ok"}]);
-});
+const express = require('express');
 
-module.exports = router;
+module.exports = function(handler){
+  const router = express.Router();
+
+  /********* GET posts listing. *********/
+  router.get('/', handler.readHandler);
+
+  /********* GET post by id ********/
+  router.get('/:id', handler.readByIdHandler);
+
+  /********** ADD new post *********/
+  router.post('/', handler.createHandler);
+
+  /********* UPDATE new post **********/
+  router.put('/:id', handler.updateHandler);
+
+  /********** DELETE new post ************/
+  router.delete('/:id', handler.deleteHandler);
+
+  return router;
+};
+
+
